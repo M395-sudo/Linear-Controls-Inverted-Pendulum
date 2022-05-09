@@ -1,0 +1,35 @@
+clear all
+close all
+clc
+
+%Here, set the parameters
+m = 1 % mass of the pendulum.
+M = 2 % mass of the cart.
+L = 0.5 % length of the pendulum.
+g = 9.81
+
+% A is a system matrix.
+A = [0 1 0 0;
+     0 0 -m*g/M 0;
+     0 0 0 1;
+     0 0 (M+m)*g/(M*L) 0]
+ 
+% B is an input matrix. 
+B = [0; 1/M; 0; -1/(M*L)]
+
+% C is an Output matrix.
+C = [1 0 0 0]
+
+% D is a Transmission matrix.
+D = [0]
+
+%Here rank(Co)is a full row rank. so it is controllable. 
+
+Co = ctrb(A,B)
+
+rank(Co) %is it controllable? Yes it is controolable.Because ctrb(A,B)
+%is equal to rank(Co). So system is Controlable.
+
+det(Co) % so it is controllable. Because det(Co)= 0.0100, it is not zero.
+
+eig(A)% i got unstable eigen values.
