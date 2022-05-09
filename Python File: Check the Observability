@@ -1,0 +1,19 @@
+m = 1 # mass of the pendulum.
+M = 2 # mass of the cart.
+g = 9.81 # gravity.
+l = 0.5 # length of the pendulum.
+A = np.array([[0,1,0,0],[0,0,-(m*g)/M,0],[0,0,0,1],[0,0,(M+m)*g/(M*l),0]]) #A is␣
+,!a system matrix.
+B = np.array([[0],[1/M],[0],[-1/(M*l)]]) #B is an input matrix.
+C = np.array([1,0,0,0]) #C is an Output matrix.
+D = 0 #D is a Transmission matrix
+Obs = obsv(A,C) # Get the observability matrix
+rows,columns = np.shape(Obs)
+R2=np.linalg.matrix_rank(Obs) # Get the rank of the observability matrix
+if R2 == rows: # Check if matrix has full row rank
+print("The rank of the observability matrix is full. So the system is␣
+,!observable.")
+de2 = np.linalg.det(Obs)
+print("The determinant of the matrix is:", round(de2, 2))
+else:
+print("System is not Observable")
