@@ -1,0 +1,60 @@
+clear all
+close all
+clc
+
+%Here, set the parameters.
+
+m = 1 % mass of the pendulum.
+M = 2 % mass of the cart.
+L = 0.5 % length of the pendulum.
+g = 9.81
+
+% A is a system matrix.
+A = [0 1 0 0;
+     0 0 -m*g/M 0;
+     0 0 0 1;
+     0 0 (M+m)*g/(M*L) 0]
+ 
+% B is an input matrix. 
+B = [0; 1/M; 0; -1/(M*L)]
+
+% C is an Output matrix.
+C = [1 0 0 0] % only observable if x measured... because x can't be
+% reconstructed.Measure cart position, x
+%C = [0 1 0 0]
+%C = [0 0 1 0]
+%C = [0 0 0 1]
+
+% D is a Transmission matrix.
+D = [0];
+
+%Here rank(obsv(A,C))is a full row rank. so it is observable.
+
+Obs = obsv(A,C)
+
+Rank = rank(Obs)
+
+det(Obs) % We can check obserability.The system under consideration is observable.
+% Because det(Obs) is not equal zero.
+
+Which measurements are best if we omit "x"
+% A is a system matrix.
+A = [0 1 0 0;
+     0 0 -m*g/M 0;
+     0 0 0 1;
+     0 0 (M+m)*g/(M*L) 0]
+ 
+% B is an input matrix. 
+B = [0; 1/M; 0; -1/(M*L)]
+
+A = A(2:end,2:end) %Lower 3 by 3 A matrix.
+B = B(2:end)  % Lower 3 by 1 B matrix.
+C = [1 0 0] % New C vector which measure X dot. X dot = 1 and observable.
+%C = [0 1 0]  % Measure theta. Not Observable.det(obsv(A,C))is zero.
+%C = [0 0 1] % Measure theta dot.Not observable.
+obsv(A,C)
+det(obsv(A,C)) %Positive value, so observable.
+Rank = rank(obsv(A,C)) %Here rank(obsv(A,C))is a full row rank. so it is observable.
+
+D = zeros(size(C,1),size(B,2))
+sys = ss(A,B,C,D)
