@@ -1,0 +1,20 @@
+m = 1 # mass of the pendulum.
+M = 2 # mass of the cart.
+g = 9.81 # gravity.
+l = 0.5 # length of the pendulum.
+A = np.array([[0,1,0,0],[0,0,-(m*g)/M,0],[0,0,0,1],[0,0,(M+m)*g/(M*l),0]]) #A is␣
+,!a system matrix.
+B = np.array([[0],[1/M],[0],[-1/(M*l)]]) #B is an input matrix.
+C = np.array([1,0,0,0]) #C is an Output matrix.
+D = 0 #D is a Transmission matrix
+Co = ctrb(A,B) # Get the controllability matrix
+rows,columns = np.shape(Co)
+R1 = np.linalg.matrix_rank(Co) # Get the rank of the controllability␣
+,!matrix
+if R1 == rows : # Check if matrix has full row rank
+print("Rank of the controllability matrix is full. So the system is␣
+,!Controllable.")
+de1 = np.linalg.det(Co)
+print("The determinant of the matrix is:", round(de1, 2))
+else:
+print("System is not Controllable")
